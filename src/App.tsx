@@ -1,42 +1,124 @@
-import React from "react";
-import Koszyk from "./sciaga/Koszyk/Koszyk";
-import Card from "./Components/Card";
-import Button1 from "./Components/Button1";
-import Przycisk from "./sciaga/Licznik/Przycisk";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
 import Home from "./Components/Home";
 import Decks from "./Components/Decks";
 import Form from "./Components/Form";
 import Login from "./Components/Login";
 import Register from "./Components/Register";
 
-function App() {
+const App: React.FC = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    // Sprawdź, czy użytkownik jest zalogowany na podstawie localStorage
+    const loggedInUser = localStorage.getItem("loggedInUser");
+    setIsLoggedIn(!!loggedInUser);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("loggedInUser"); // Usuń zalogowanego użytkownika
+    setIsLoggedIn(false); // Zaktualizuj stan zalogowania
+  };
+
   return (
     <Router>
-      <nav style={navStyle}>
-        <Link to="/" style={linkStyle}>
-          Strona główna
-        </Link>
-        <Link to="/decks" style={linkStyle}>
-          Talie
-        </Link>
-        <Link to="/form" style={linkStyle}>
-          Formularz
-        </Link>
-        <Link to="/login" style={linkStyle}>
-          Logowanie
-        </Link>
-      </nav>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/decks" element={<Decks />} />
-        <Route path="/form" element={<Form />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-      </Routes>
+      <MainLayout
+        isLoggedIn={isLoggedIn}
+        handleLogout={handleLogout}
+        setIsLoggedIn={setIsLoggedIn}
+      />
     </Router>
   );
-}
+};
+
+const MainLayout: React.FC<{
+  isLoggedIn: boolean;
+  handleLogout: () => void;
+  setIsLoggedIn: (value: boolean) => void;
+}> = ({ isLoggedIn, handleLogout, setIsLoggedIn }) => {
+  const location = useLocation();
+
+  // Sprawdź, czy aktualna trasa to "/login" lub "/register"
+  const isAuthRoute =
+    location.pathname === "/" || location.pathname === "/register";
+
+  return (
+    <>
+      {/* Menu jest ukrywane na stronach logowania/rejestracji */}
+      {!isAuthRoute && (
+        <nav style={navStyle}>
+          <Link to="/home" style={linkStyle}>
+            Strona główna
+          </Link>
+          <Link to="/decks" style={linkStyle}>
+            Talie
+          </Link>
+          <Link to="/form" style={linkStyle}>
+            Formularz
+          </Link>
+          {isLoggedIn ? (
+            <button
+              onClick={handleLogout}
+              style={{
+                ...linkStyle,
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+              }}
+            >
+              Wyloguj się
+            </button>
+          ) : (
+            <Link to="/" style={linkStyle}>
+              Logowanie
+            </Link>
+          )}
+        </nav>
+      )}
+      <Routes>
+        <Route path="/" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+        <Route
+          path="/decks"
+          element={isLoggedIn ? <Decks /> : <RedirectToLogin />}
+        />
+        <Route
+          path="/form"
+          element={isLoggedIn ? <Form /> : <RedirectToLogin />}
+        />
+        <Route
+          path="/home"
+          element={isLoggedIn ? <Home /> : <RedirectToLogin />}
+        />
+        <Route
+          path="/register"
+          element={
+            <Register
+              setIsLoggedIn={function (value: boolean): void {
+                throw new Error("Function not implemented.");
+              }}
+            />
+          }
+        />
+      </Routes>
+    </>
+  );
+};
+
+const RedirectToLogin: React.FC = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    navigate("/");
+  }, [navigate]);
+  return null;
+};
+
 const navStyle: React.CSSProperties = {
   display: "flex",
   justifyContent: "space-around",
@@ -52,4 +134,5 @@ const linkStyle: React.CSSProperties = {
   borderRadius: "4px",
   transition: "background-color 0.3s ease",
 };
+
 export default App;

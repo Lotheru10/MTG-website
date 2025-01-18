@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import styles from "./Auth.module.css"; // Importowanie modułu CSS
 
-function Login() {
+interface LoginProps {
+  setIsLoggedIn: (value: boolean) => void;
+}
+
+const Login: React.FC<LoginProps> = ({ setIsLoggedIn }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -9,27 +14,30 @@ function Login() {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Sprawdzanie danych logowania
-    const users = JSON.parse(localStorage.getItem("users") || "[]");
-    const user = users.find(
-      (user: { username: string; password: string }) =>
-        user.username === username && user.password === password
+    const mockUsers = [
+      { username: "1", password: "1" },
+      { username: "user2", password: "password2" },
+    ];
+    const user = mockUsers.find(
+      (u) => u.username === username && u.password === password
     );
 
     if (user) {
+      localStorage.setItem("loggedInUser", username);
+      setIsLoggedIn(true);
       alert("Login successful");
-      navigate("/decks"); // Przechodzimy do strony "Decks"
+      navigate("/home");
     } else {
       alert("Invalid credentials");
     }
   };
 
   return (
-    <div>
-      <h1>Login</h1>
+    <div className={styles.loginContainer}>
+      <h1 className={styles.loginTitle}>Logowanie</h1>
       <form onSubmit={handleLogin}>
-        <div>
-          <label>Username:</label>
+        <div className={styles.inputGroup}>
+          <label>Nazwa użytkownika:</label>
           <input
             type="text"
             value={username}
@@ -37,8 +45,8 @@ function Login() {
             required
           />
         </div>
-        <div>
-          <label>Password:</label>
+        <div className={styles.inputGroup}>
+          <label>Hasło:</label>
           <input
             type="password"
             value={password}
@@ -46,15 +54,21 @@ function Login() {
             required
           />
         </div>
-        <button type="submit">Login</button>
+        <button type="submit" className={styles.button}>
+          Zaloguj
+        </button>
       </form>
-      {/* Link do rejestracji, widoczny tylko na stronie logowania */}
-      <p>
-        Nie masz konta?{" "}
-        <button onClick={() => navigate("/register")}>Zarejestruj się</button>
-      </p>
+      <div>
+        <p>Nie masz konta?</p>
+        <button
+          onClick={() => navigate("/register")}
+          className={styles.registerButton}
+        >
+          Zarejestruj się
+        </button>
+      </div>
     </div>
   );
-}
+};
 
 export default Login;
