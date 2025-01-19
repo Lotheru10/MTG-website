@@ -1,27 +1,50 @@
 import React, { useState } from "react";
-import Button1 from "./Button1";
-import dragonImage from "../assets/dragon.png";
 import "./css/Card.css";
 interface CardProps {
   imageUrl: string;
   name: string;
-  onAddToDeck: (cardName: string) => void;
+  decks: { name: string; cards: string[] }[];
+  addCardToDeck: (deckName: string, cardName: string) => void;
+  onCardClick: () => void;
 }
-const Card: React.FC<CardProps> = ({ imageUrl, name, onAddToDeck }) => {
-  const [isHovered, setIsHovered] = useState(false);
+
+const Card: React.FC<CardProps> = ({
+  imageUrl,
+  name,
+  decks,
+  addCardToDeck,
+  onCardClick,
+}) => {
+  const [showDecks, setShowDecks] = useState(false);
 
   return (
-    <div
-      className={`card ${isHovered ? "hovered" : ""}`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
+    <div className="card" onClick={onCardClick}>
       <img src={imageUrl} alt={name} className="card-image" />
-      <button className="add-button" onClick={() => onAddToDeck(name)}>
+      <button onClick={() => setShowDecks((prev) => !prev)}>
         Dodaj do talii
       </button>
+      {showDecks && (
+        <div className="deck-list">
+          {decks.length > 0 ? (
+            decks.map((deck) => (
+              <button
+                key={deck.name}
+                onClick={() => {
+                  addCardToDeck(deck.name, imageUrl);
+                  setShowDecks(false);
+                }}
+              >
+                {deck.name}
+              </button>
+            ))
+          ) : (
+            <p>Brak talii. Stwórz nową talię!</p>
+          )}
+        </div>
+      )}
       <p className="card-name">{name}</p>
     </div>
   );
 };
+
 export default Card;

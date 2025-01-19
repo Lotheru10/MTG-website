@@ -1,18 +1,35 @@
 import React, { useState } from "react";
-import CardGallery from "./CardGallery";
+import CardGallery, {
+  CardDetails as CardGalleryCardDetails,
+} from "./CardGallery";
+import CardDetailsModal from "./CardDetailsModal";
 
-function Home() {
-  const [deck, setDeck] = useState<string[]>([]);
+type CardDetails = CardGalleryCardDetails;
 
-  const handleAddToDeck = (cardName: string) => {
-    setDeck((prevDeck) => [...prevDeck, cardName]);
-    alert(`${cardName} dodano do talii!`);
+interface HomeProps {
+  decks: { name: string; cards: string[] }[];
+  addCardToDeck: (deckName: string, cardName: string) => void;
+}
+
+function Home({ decks, addCardToDeck }: HomeProps) {
+  const [selectedCard, setSelectedCard] = useState<CardDetails | null>(null);
+
+  const handleCardClick = (card: CardDetails) => {
+    setSelectedCard(card);
   };
 
+  const handleCloseModal = () => {
+    setSelectedCard(null);
+  };
   return (
     <div>
       <h1>Magic the Gathering</h1>
-      <CardGallery onAddToDeck={handleAddToDeck} />
+      <CardGallery
+        decks={decks}
+        addCardToDeck={addCardToDeck}
+        onCardClick={handleCardClick}
+      />
+      <CardDetailsModal card={selectedCard} onClose={handleCloseModal} />
     </div>
   );
 }
