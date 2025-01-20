@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./Auth.module.css"; // Importowanie modułu CSS
+import styles from "./Auth.module.css";
 
 interface RegisterProps {
   setIsLoggedIn: (value: boolean) => void;
@@ -19,8 +19,6 @@ const Register: React.FC<RegisterProps> = ({ setIsLoggedIn }) => {
       alert("Hasła muszą być takie same!");
       return;
     }
-
-    // Sprawdź, czy użytkownik już istnieje
     const users = JSON.parse(localStorage.getItem("users") || "[]");
     const userExists = users.some(
       (user: { username: string }) => user.username === username
@@ -30,20 +28,15 @@ const Register: React.FC<RegisterProps> = ({ setIsLoggedIn }) => {
       alert("Użytkownik o tej nazwie już istnieje!");
       return;
     }
-
-    // Dodanie nowego użytkownika
     const newUser = { username, password };
     users.push(newUser);
     localStorage.setItem("users", JSON.stringify(users));
 
-    // Powiadomienie o sukcesie
     alert("Rejestracja zakończona sukcesem!");
 
-    // Logowanie użytkownika po rejestracji
     localStorage.setItem("loggedInUser", username);
     setIsLoggedIn(true);
 
-    // Przekierowanie na stronę główną
     navigate("/home");
   };
 

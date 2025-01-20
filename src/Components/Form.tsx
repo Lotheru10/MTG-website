@@ -22,17 +22,16 @@ function Form() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Wysyłanie e-maila za pomocą EmailJS
     emailjs
       .send(
-        "service_au5zsli", // Twój Service ID
-        "template_zf1e4cw", // Twój Template ID
+        "service_au5zsli",
+        "template_zf1e4cw",
         {
           from_name: formData.name,
           from_email: formData.email,
           message: formData.message,
         },
-        "du_Ee_quRVtwA1_LK" // Twój Public Key
+        "du_Ee_quRVtwA1_LK"
       )
       .then(
         (result) => {

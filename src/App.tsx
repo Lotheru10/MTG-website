@@ -14,6 +14,29 @@ import Login from "./Components/Login";
 import Register from "./Components/Register";
 
 const App: React.FC = () => {
+  useEffect(() => {
+    const users = JSON.parse(localStorage.getItem("users") || "[]");
+
+    const existingUsers = ["Jakub", "Tymon", "Mariusz", "prowadzący"];
+    const newUsers = [
+      { username: "Jakub", password: "osa" },
+      { username: "Tymon", password: "masło" },
+      { username: "Mariusz", password: "dwa" },
+      { username: "prowadzący", password: "wdai" },
+    ];
+
+    newUsers.forEach((newUser) => {
+      const userExists = users.some(
+        (user: { username: string }) => user.username === newUser.username
+      );
+      if (!userExists) {
+        users.push(newUser);
+      }
+    });
+
+    localStorage.setItem("users", JSON.stringify(users));
+  }, []);
+
   const [decks, setDecks] = useState<{ name: string; cards: string[] }[]>([]);
 
   const addDeck = (name: string) => {
@@ -75,7 +98,6 @@ const MainLayout: React.FC<{
 }) => {
   const location = useLocation();
 
-  // Sprawdź, czy aktualna trasa to "/login" lub "/register"
   const isAuthRoute =
     location.pathname === "/" || location.pathname === "/register";
 

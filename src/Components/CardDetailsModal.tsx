@@ -13,12 +13,17 @@ interface CardDetailsModalProps {
   onClose: () => void;
 }
 
+interface Opinion {
+  username: string;
+  text: string;
+}
+
 const CardDetailsModal: React.FC<CardDetailsModalProps> = ({
   card,
   onClose,
 }) => {
-  const [opinion, setOpinion] = useState(""); // Stan do przechowywania opinii
-  const [opinionsList, setOpinionsList] = useState<string[]>([]); // Lista opinii
+  const [opinion, setOpinion] = useState("");
+  const [opinionsList, setOpinionsList] = useState<Opinion[]>([]);
 
   if (!card) return null;
 
@@ -27,9 +32,16 @@ const CardDetailsModal: React.FC<CardDetailsModalProps> = ({
   };
 
   const handleAddOpinion = () => {
-    if (opinion.trim() !== "") {
-      setOpinionsList((prevOpinions) => [...prevOpinions, opinion]);
-      setOpinion(""); // Wyczyść pole po dodaniu opinii
+    const loggedInUser = localStorage.getItem("loggedInUser");
+
+    if (opinion.trim() !== "" && loggedInUser) {
+      setOpinionsList((prevOpinions) => [
+        ...prevOpinions,
+        { username: loggedInUser, text: opinion },
+      ]);
+      setOpinion("");
+    } else if (!loggedInUser) {
+      alert("Musisz być zalogowany, aby dodać opinię.");
     }
   };
 
@@ -54,7 +66,6 @@ const CardDetailsModal: React.FC<CardDetailsModalProps> = ({
           <strong>Price:</strong> {card.price}
         </p>
 
-        {/* Formularz do dodania opinii */}
         <div className="opinion-section">
           <input
             type="text"
@@ -65,12 +76,13 @@ const CardDetailsModal: React.FC<CardDetailsModalProps> = ({
           <button onClick={handleAddOpinion}>Dodaj opinię</button>
         </div>
 
-        {/* Wyświetlanie opinii */}
         <div className="opinions-list">
           {opinionsList.length > 0 ? (
             <ul>
               {opinionsList.map((opinion, index) => (
-                <li key={index}>{opinion}</li>
+                <li key={index}>
+                  <strong>{opinion.username}:</strong> {opinion.text}
+                </li>
               ))}
             </ul>
           ) : (

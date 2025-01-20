@@ -13,6 +13,7 @@ interface HomeProps {
 
 function Home({ decks, addCardToDeck }: HomeProps) {
   const [selectedCard, setSelectedCard] = useState<CardDetails | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleCardClick = (card: CardDetails) => {
     setSelectedCard(card);
@@ -21,13 +22,26 @@ function Home({ decks, addCardToDeck }: HomeProps) {
   const handleCloseModal = () => {
     setSelectedCard(null);
   };
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value.toLowerCase());
+  };
+
   return (
     <div>
       <h1>Magic the Gathering</h1>
+      <input
+        type="text"
+        placeholder="Search for cards"
+        value={searchTerm}
+        onChange={handleSearchChange}
+        className="search-input"
+      />
       <CardGallery
         decks={decks}
         addCardToDeck={addCardToDeck}
         onCardClick={handleCardClick}
+        searchTerm={searchTerm}
       />
       <CardDetailsModal card={selectedCard} onClose={handleCloseModal} />
     </div>
