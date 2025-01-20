@@ -28,6 +28,7 @@ const Card: React.FC<CardProps> = ({
           {decks.length > 0 ? (
             decks.map((deck) => (
               <button
+                className="add-button"
                 key={deck.name}
                 onClick={() => {
                   addCardToDeck(deck.name, imageUrl);

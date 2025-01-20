@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import styles from "./Auth.module.css";
 
-function Login() {
+interface LoginProps {
+  setIsLoggedIn: (value: boolean) => void;
+}
+
+const Login: React.FC<LoginProps> = ({ setIsLoggedIn }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -9,52 +14,60 @@ function Login() {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Sprawdzanie danych logowania
     const users = JSON.parse(localStorage.getItem("users") || "[]");
-    const user = users.find(
+    const userExists = users.some(
       (user: { username: string; password: string }) =>
         user.username === username && user.password === password
     );
 
-    if (user) {
-      alert("Login successful");
-      navigate("/decks"); // Przechodzimy do strony "Decks"
+    if (userExists) {
+      localStorage.setItem("loggedInUser", username);
+      setIsLoggedIn(true);
+      navigate("/home");
     } else {
-      alert("Invalid credentials");
+      alert("Nieprawidłowa nazwa użytkownika lub hasło.");
     }
   };
 
   return (
-    <div>
-      <h1>Login</h1>
+    <div className={styles.loginContainer}>
+      <h1 className={styles.loginTitle}>Logowanie</h1>
       <form onSubmit={handleLogin}>
-        <div>
-          <label>Username:</label>
+        <div className={styles.inputGroup}>
+          <label htmlFor="username">Nazwa użytkownika:</label>
           <input
+            id="username"
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
           />
         </div>
-        <div>
-          <label>Password:</label>
+        <div className={styles.inputGroup}>
+          <label htmlFor="password">Hasło:</label>
           <input
+            id="password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
-        <button type="submit">Login</button>
+        <button type="submit" className={styles.button}>
+          Zaloguj się
+        </button>
       </form>
-      {/* Link do rejestracji, widoczny tylko na stronie logowania */}
-      <p>
-        Nie masz konta?{" "}
-        <button onClick={() => navigate("/register")}>Zarejestruj się</button>
-      </p>
+      <div className={styles.loginPrompt}>
+        <p>Nie masz konta?</p>
+        <button
+          onClick={() => navigate("/register")}
+          className={styles.registerButton}
+        >
+          Zarejestruj się
+        </button>
+      </div>
     </div>
   );
-}
+};
 
 export default Login;

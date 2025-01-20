@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import styles from "./Auth.module.css"; // Importowanie modułu CSS
 
-function Register() {
+interface RegisterProps {
+  setIsLoggedIn: (value: boolean) => void;
+}
+
+const Register: React.FC<RegisterProps> = ({ setIsLoggedIn }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -10,65 +15,84 @@ function Register() {
   const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Sprawdzanie, czy hasło i potwierdzenie hasła są takie same
     if (password !== confirmPassword) {
-      alert("Hasła muszą być takie same.");
+      alert("Hasła muszą być takie same!");
       return;
     }
 
-    // Sprawdzanie, czy użytkownik już istnieje
+    // Sprawdź, czy użytkownik już istnieje
     const users = JSON.parse(localStorage.getItem("users") || "[]");
-    if (
-      users.some((user: { username: string }) => user.username === username)
-    ) {
-      alert("Użytkownik o tej nazwie już istnieje.");
+    const userExists = users.some(
+      (user: { username: string }) => user.username === username
+    );
+
+    if (userExists) {
+      alert("Użytkownik o tej nazwie już istnieje!");
       return;
     }
 
-    // Dodanie nowego użytkownika do localStorage
+    // Dodanie nowego użytkownika
     const newUser = { username, password };
     users.push(newUser);
     localStorage.setItem("users", JSON.stringify(users));
 
+    // Powiadomienie o sukcesie
     alert("Rejestracja zakończona sukcesem!");
-    navigate("/login"); // Przekierowanie na stronę logowania po rejestracji
+
+    // Logowanie użytkownika po rejestracji
+    localStorage.setItem("loggedInUser", username);
+    setIsLoggedIn(true);
+
+    // Przekierowanie na stronę główną
+    navigate("/home");
   };
 
   return (
-    <div>
-      <h1>Rejestracja</h1>
+    <div className={styles.loginContainer}>
+      <h1 className={styles.loginTitle}>Rejestracja</h1>
       <form onSubmit={handleRegister}>
-        <div>
-          <label>Username:</label>
+        <div className={styles.inputGroup}>
+          <label htmlFor="username">Nazwa użytkownika:</label>
           <input
+            id="username"
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
           />
         </div>
-        <div>
-          <label>Password:</label>
+        <div className={styles.inputGroup}>
+          <label htmlFor="password">Hasło:</label>
           <input
+            id="password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
-        <div>
-          <label>Confirm Password:</label>
+        <div className={styles.inputGroup}>
+          <label htmlFor="confirmPassword">Potwierdź hasło:</label>
           <input
+            id="confirmPassword"
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
         </div>
-        <button type="submit">Zarejestruj się</button>
+        <button type="submit" className={styles.button}>
+          Zarejestruj się
+        </button>
       </form>
+      <div className={styles.loginPrompt}>
+        <p>Masz już konto?</p>
+        <button onClick={() => navigate("/")} className={styles.registerButton}>
+          Zaloguj się
+        </button>
+      </div>
     </div>
   );
-}
+};
 
 export default Register;
