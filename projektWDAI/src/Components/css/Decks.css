@@ -1,0 +1,49 @@
+/* Decks.css */
+.deck-container {
+  display: flex;
+  flex-wrap: wrap; /* Zawija elementy, które nie mieszczą się w rzędzie */
+  gap: 16px; /* Odstęp między kartami */
+  justify-content: center;
+  padding: 16px;
+}
+
+.card-in-deck {
+  width: 200px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+  background-color: #fff;
+  cursor: pointer;
+  margin: 8px; /* Odstęp pomiędzy kartami w talii */
+}
+
+.card-in-deck:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.card-in-deck .card-name {
+  font-weight: bold;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+button {
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}

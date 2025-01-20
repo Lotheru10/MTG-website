@@ -1,0 +1,91 @@
+/* Modal.css */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  position: relative;
+  background-color: white;
+  padding: 20px;
+  width: 500px;
+  max-width: 90%;
+  margin: 0 auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #ff5c5c;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  background-color: #ff4040;
+}
+
+.opinion-section {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.opinion-section input {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.opinion-section button {
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.opinion-section button:hover {
+  background-color: #45a049;
+}
+
+.opinions-list {
+  margin-top: 20px;
+}
+
+.opinions-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.opinions-list li {
+  padding: 5px;
+  border-bottom: 1px solid #ddd;
+}
+
+.opinions-list p {
+  color: #777;
+}

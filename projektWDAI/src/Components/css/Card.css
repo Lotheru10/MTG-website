@@ -1,0 +1,74 @@
+/* Card.css */
+
+/* Ogólny styl karty */
+.card {
+  width: 250px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Przejście dla powiększenia */
+  text-align: center;
+  background-color: #fff;
+  overflow: hidden;
+  cursor: pointer;
+  /* Utrzymanie proporcji elementów wewnętrznych */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Powiększenie karty po najechaniu */
+.card:hover {
+  transform: scale(1.1); /* Powiększanie karty o 10% */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Cień przy powiększeniu */
+}
+
+/* Styl dla obrazu karty */
+.card-image {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  transition: transform 0.3s ease; /* Przejście dla obrazu */
+}
+
+/* Styl dla nazwy karty */
+.card-name {
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 16px;
+  transition: transform 0.3s ease; /* Przejście dla nazwy */
+}
+
+/* Styl dla przycisku */
+.add-button {
+  margin-top: 10px;
+  padding: 8px 12px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Przejście dla przycisku */
+}
+
+/* Zmiana koloru przycisku przy najeżdżaniu */
+.add-button:hover {
+  background-color: #0056b3;
+}
+
+/* Powiększenie przycisku podczas najeżdżania */
+.card:hover .add-button {
+  transform: scale(1.1); /* Powiększenie przycisku */
+}
+
+/* Styl kontenera kart */
+.cards-container {
+  display: flex;
+  flex-wrap: wrap; /* Pozwala zawijać elementy, które nie mieszczą się w rzędzie */
+  gap: 16px; /* Odstęp między kartami */
+  justify-content: center; /* Centrowanie kart */
+  padding: 16px; /* Opcjonalne odstępy wewnątrz kontenera */
+  box-sizing: border-box; /* Uwzględnianie paddingu w rozmiarze elementu */
+}
