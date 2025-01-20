@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import "./css/Form.css";
+import emailjs from "emailjs-com";
 
 function Form() {
   const [formData, setFormData] = useState({
@@ -19,16 +21,37 @@ function Form() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Form Submitted");
-    console.log(formData);
+
+    // Wysyłanie e-maila za pomocą EmailJS
+    emailjs
+      .send(
+        "service_au5zsli", // Twój Service ID
+        "template_zf1e4cw", // Twój Template ID
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          message: formData.message,
+        },
+        "du_Ee_quRVtwA1_LK" // Twój Public Key
+      )
+      .then(
+        (result) => {
+          alert("Formularz wysłany pomyślnie!");
+          console.log(result.text);
+        },
+        (error) => {
+          alert("Błąd podczas wysyłania formularza.");
+          console.error(error.text);
+        }
+      );
   };
 
   return (
     <div>
-      <h1>Contact Form</h1>
+      <h1>Formularz kontaktowy</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Name:</label>
+          <label>Imię:</label>
           <input
             type="text"
             name="name"
@@ -48,7 +71,7 @@ function Form() {
           />
         </div>
         <div>
-          <label>Message:</label>
+          <label>Wiadomość:</label>
           <textarea
             name="message"
             value={formData.message}
@@ -56,7 +79,7 @@ function Form() {
             required
           />
         </div>
-        <button type="submit">Submit</button>
+        <button type="submit">Wyślij</button>
       </form>
     </div>
   );

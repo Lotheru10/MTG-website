@@ -1,5 +1,6 @@
 import React from "react";
 import Card from "./Card";
+import "./css/CardGallery.css";
 
 interface CardGalleryProps {
   decks: { name: string; cards: string[] }[];

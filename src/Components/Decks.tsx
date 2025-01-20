@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./css/Decks.css";
 
 interface DecksProps {
   decks: { name: string; cards: string[] }[];

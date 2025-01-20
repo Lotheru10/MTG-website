@@ -1,4 +1,5 @@
 import React from "react";
+import "./css/CardInDeck.css";
 
 interface CardInDeckProps {
   name: string;
