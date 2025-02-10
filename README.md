@@ -1,39 +1,51 @@
-# Dokumentacja
+This project was created for the Introduction to Web Applications course at AGH WI in the 2024/2025 academic year.
 
-Aplikacja to narzędzie stworzone dla fanów gry Magic the Gathering, które umożliwia zarządzanie kartami i taliami w sposób intuicyjny i interaktywny. Użytkownik może przeglądać szczegóły kart w galerii, dodawać je do własnych talii oraz wyrażać opinie na temat poszczególnych kart
+# Description
 
-# Funkcjonalności Aplikacji
+The application is a tool created for fans of the game Magic: The Gathering, allowing intuitive and interactive management of cards and decks. Users can browse card details in a gallery, add them to their own decks, and share opinions about specific cards.
 
-## Autoryzacja użytkownika (logowanie i rejestracja)
+# Technologies Used
 
-Przed wejściem na stronę użytkownik musi się zalogować.
-W przypadku braku konta użytkownik ma możliwość rejestracji za pomocą dedykowanego formularza.
++ React.js
++ TypeScript
++ React Router
++ CSS
 
-## Strona główna – przegląd kart
+# Application Features
 
-Użytkownik może przeglądać dostępne karty, które są wyświetlane jako obrazki wraz z podstawowymi informacjami.
 
-## Szczegóły kart
+## User Authentication (Login and Registration)
+Before accessing the main page, users must log in.
+If they do not have an account, they can register using a dedicated form.
 
-Kliknięcie na kartę otwiera modal z jej szczegółami, takimi jak: nazwa, rzadkość, typ, kolor, cena.
-W modalu użytkownik może dodawać opinie na temat kart.
+## Home Page – Card Browsing
+Users can browse available cards, displayed as images along with basic information.
 
-## Zarządzanie taliami kart
+## Card Details
+Clicking on a card opens a modal with details such as name, rarity, type, color, and price.
+In the modal, users can also add opinions about the cards.
 
-Użytkownik może tworzyć nowe talie kart za pomocą formularza dostępnego na dedykowanej stronie „Talie”.
-Po utworzeniu talii użytkownik może dodawać do niej karty z galerii.
+## Deck Management
+Users can create new decks using a form available on the dedicated "Decks" page.
+Once a deck is created, users can add cards to it from the gallery.
 
-## Dodawanie kart do talii
+## Adding Cards to a Deck
+By clicking on a card, users can select a deck to which they want to add it.
+After adding a card, it is assigned to the chosen deck, and the application state is updated accordingly.
 
-Klikając na kartę, użytkownik może wybrać talię, do której chce ją dodać.
-Po dodaniu karta zostaje przypisana do wybranej talii, a stan aplikacji jest odpowiednio aktualizowany.
+## Contact Form
+The application includes a form allowing users to send messages to the email address: mariomatma1@wymyślony.mail.
+This form can be used to report feedback or suggestions related to the application.
 
-## Formularz kontaktowy
+## Navigation Between Sections
+The application allows easy switching between pages: Home, Decks, and Contact Form, using navigation visible at the top of the page.
+The navigation is styled and dynamic, ensuring smooth transitions between sections.
 
-Aplikacja zawiera formularz umożliwiający wysyłanie wiadomości na adres e-mail: mariomatma1@wymyślony.mail.
-Formularz może być użyty do zgłaszania uwag lub propozycji związanych z aplikacją.
+# Preview
 
-## Nawigacja między sekcjami
+## Login
+![Login](login.png)
 
-Aplikacja umożliwia łatwe przełączanie się między stronami: Strona główna, Talie, oraz Formularz za pomocą nawigacji widocznej w górnej części strony.
-Nawigacja jest stylizowana i dynamiczna, zapewniając płynne przejście między stronami.
+
+## Home page
+![Home](home.png)
