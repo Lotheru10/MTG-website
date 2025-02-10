@@ -34,7 +34,7 @@ By clicking on a card, users can select a deck to which they want to add it.
 After adding a card, it is assigned to the chosen deck, and the application state is updated accordingly.
 
 ## Contact Form
-The application includes a form allowing users to send messages to the email address: mariomatma1@wymyślony.mail.
+The application includes a form allowing users to send messages to the email address: stronamagicwdai@gmail.com.
 This form can be used to report feedback or suggestions related to the application.
 
 ## Navigation Between Sections
